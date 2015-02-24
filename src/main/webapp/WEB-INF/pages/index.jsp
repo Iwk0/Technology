@@ -7,6 +7,8 @@
     </head>
     <body>
         <h2>Hello</h2>
+
+        <jsp:useBean id="users" scope="request" type="java.util.List"/>
         <c:forEach items="${users}" var="user">
             <div>${user.id} ${user.username} ${user.status}</div>
         </c:forEach>
