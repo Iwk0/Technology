@@ -53,6 +53,5 @@
         </property>
     </bean>
 
-    <!--TagSupport for jsp custom tags-->
     <mvc:resources mapping="/resources/**" location="/resources/" />
 </beans>
