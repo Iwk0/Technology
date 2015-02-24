@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class HomeController {
 
+    /*Logger*/
     private static final Logger logger = Logger.getLogger(HomeController.class);
 
     @Autowired
