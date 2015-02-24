@@ -2,6 +2,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
+    <head>
+        <script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.2.min.js"></script>
+    </head>
     <body>
         <h2>Hello</h2>
         <c:forEach items="${users}" var="user">
