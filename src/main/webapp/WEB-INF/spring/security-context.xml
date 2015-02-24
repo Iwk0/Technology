@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans
+        xmlns="http://www.springframework.org/schema/security"
+        xmlns:beans="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:jee="http://www.springframework.org/schema/jee"
+        xmlns:security="http://www.springframework.org/schema/security"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                            http://www.springframework.org/schema/security
+                            http://www.springframework.org/schema/security/spring-security-3.2.xsd
+                            http://www.springframework.org/schema/jee
+                            http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+    <security:global-method-security pre-post-annotations="enabled" />
+
+    <security:http pattern="/favicon.ico" security="none" />
+    <!--<security:http pattern="/assets/**" security="none" />-->
+
+    <security:http use-expressions="true">
+        <security:intercept-url pattern="/login*" access="permitAll" />
+        <security:intercept-url pattern="/controlPanel" access="hasRole('ADMIN')" />
+        <security:intercept-url pattern="/**" access="isAuthenticated()" />
+        <security:intercept-url pattern="/accessDenied" access="isAuthenticated()" />
+
+        <security:form-login login-page="/login"
+                             default-target-url="/"
+                             username-parameter="username"
+                             password-parameter="password"
+                             authentication-failure-url="/login?loginError=1" />
+
+        <security:logout logout-url="/logout" logout-success-url="/login" />
+        <!-- 403 Handler -->
+        <security:access-denied-handler error-page="/accessDenied"/>
+    </security:http>
+
+    <jee:jndi-lookup id="dataSource" jndi-name="jdbc/technology" expected-type="javax.sql.DataSource"/>
+
+    <security:authentication-manager>
+        <security:authentication-provider>
+            <security:password-encoder hash="sha-256" />
+            <security:jdbc-user-service data-source-ref="dataSource"
+                                        users-by-username-query="select username, password, true from user where username = ? and status = 'ACTIVE'"
+                                        authorities-by-username-query="select u.username, u.role as authorities from user u where u.username = ?" />
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+</beans:beans>
