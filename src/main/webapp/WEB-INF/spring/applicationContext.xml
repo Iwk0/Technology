@@ -17,8 +17,9 @@
 	   http://www.springframework.org/schema/jee/spring-jee.xsd">
 
     <jee:jndi-lookup id="dataSource" jndi-name="jdbc/technology" />
-
     <jpa:repositories base-package="com.technology.repository" query-lookup-strategy="create-if-not-found"/>
+    <util:map id="jpaPropertyMap" />
+    <tx:annotation-driven transaction-manager="transactionManager" />
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
@@ -26,12 +27,6 @@
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
         </property>
     </bean>
-
-    <util:map id="jpaPropertyMap">
-
-    </util:map>
-
-    <tx:annotation-driven transaction-manager="transactionManager" />
 
     <bean id="entityManagerFactory"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -53,5 +48,4 @@
             </props>
         </property>
     </bean>
-
 </beans>
