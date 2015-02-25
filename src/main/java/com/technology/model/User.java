@@ -1,5 +1,6 @@
 package com.technology.model;
 
+import com.google.gson.annotations.Expose;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Column;
@@ -20,6 +21,7 @@ public class User extends ParentEntity {
         ANONYMOUS, ADMIN, USER
     }
 
+    @Expose
     @Column
     @NotBlank
     private String username;
@@ -27,10 +29,12 @@ public class User extends ParentEntity {
     @Column
     private String password;
 
+    @Expose
     @Column
     @Enumerated(value = EnumType.STRING)
     private Status status = Status.ACTIVE;
 
+    @Expose
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
 

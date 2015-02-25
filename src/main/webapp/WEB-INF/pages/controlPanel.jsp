@@ -13,8 +13,9 @@
         <title></title>
     </head>
     <body>
+        <%--<jsp:include page="your jsp" />--%>
         <h1>Control panel</h1>
-        <security:authorize access="hasRole('ADMIN')" var="role">
+        <security:authorize access="hasAnyRole('ADMIN', 'USER')">
             <label>Hidden</label>
         </security:authorize>
     </body>

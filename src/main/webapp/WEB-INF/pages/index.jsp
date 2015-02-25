@@ -5,17 +5,18 @@
 
 <html>
     <head>
-        <script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.2.min.js"></script>
+        <title>Title</title>
     </head>
     <body>
         <h2>Hello <security:authentication property="principal.username" /></h2>
 
         <jsp:useBean id="users" scope="request" type="java.util.List" />
         <c:forEach items="${users}" var="user">
-            <div>${user.id} ${user.username} ${user.status} <spring:message code="ACTIVE" /> </div>
+            <div>${user.id} ${user.username} ${user.status} <spring:message code="ACTIVE" /></div>
         </c:forEach>
 
         <a href="${pageContext.request.contextPath}/logout">Logout</a>
         <a href="${pageContext.request.contextPath}/controlPanel">Control panel</a>
+        <a href="${pageContext.request.contextPath}/user/new">New user</a>
     </body>
 </html>

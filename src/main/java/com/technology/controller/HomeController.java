@@ -1,5 +1,6 @@
 package com.technology.controller;
 
+import com.google.gson.GsonBuilder;
 import com.technology.repository.UserRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +10,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class HomeController {
 
-    /*Logger*/
     private static final Logger logger = Logger.getLogger(HomeController.class);
 
     @Autowired
@@ -46,8 +48,9 @@ public class HomeController {
         return "index";
     }
 
-    @RequestMapping(value = "/accessDenied")
-    public String accessDenied() {
-        return "error/accessDenied";
+    @RequestMapping(value = "/list", method = RequestMethod.GET, produces="application/json")
+    public @ResponseBody
+    String getListOfUsers() {
+        return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(userRepository.findAll());
     }
 }
