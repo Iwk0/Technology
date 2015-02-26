@@ -7,10 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 /**
  * Created with IntelliJ IDEA.
@@ -35,12 +38,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String listUserPage(@ModelAttribute("user") User user, ModelMap model) {
-        logger.info("User registration");
+    public String listUserPage(@Valid @ModelAttribute("user") User user, BindingResult result, ModelMap model) {
+        if (result.hasErrors()) {
+            model.put("roles", User.Role.values());
+            return "user/new";
+        }
+
         user.setPassword(new ShaPasswordEncoder(256).encodePassword(user.getPassword(), ""));
         userRepository.save(user);
-        model.put("users", userRepository.findAll());
-        logger.info("Registration successfully");
 
         return "redirect:/";
     }
