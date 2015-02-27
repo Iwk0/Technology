@@ -3,6 +3,8 @@ package com.technology.repository;
 import com.technology.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: imishev
@@ -10,4 +12,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Time: 9:59
  */
 public interface UserRepository extends JpaRepository<User, Long> {
+
+    public List<User> findByUsernameLike(String username);
 }

@@ -1,12 +1,14 @@
 package com.technology.model;
 
 import com.google.gson.annotations.Expose;
+import com.technology.util.validation.BulstradDistributor;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,6 +30,17 @@ public class User extends ParentEntity {
 
     @Column
     private String password;
+
+    @BulstradDistributor
+    private String amount;
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
 
     @Expose
     @Column

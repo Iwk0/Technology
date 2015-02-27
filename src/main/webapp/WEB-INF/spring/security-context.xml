@@ -12,7 +12,8 @@
                             http://www.springframework.org/schema/jee/spring-jee.xsd">
 
     <jee:jndi-lookup id="dataSource" jndi-name="jdbc/technology" expected-type="javax.sql.DataSource" />
-    <global-method-security pre-post-annotations="enabled" />
+    <!--Enable annotation for role check-->
+    <!--<global-method-security pre-post-annotations="enabled" />-->
 
     <http pattern="/favicon.ico" security="none" />
     <!--<security:http pattern="/resources/**" security="none" />-->
