@@ -15,12 +15,12 @@
     </head>
     <body>
         <form:form modelAttribute="user">
-            <label><spring:message code="label.username" /><form:input path="username" /></label><br />
+            <label><spring:message code="label.username" /><form:input path="username" /></label><form:errors path="username" cssStyle="color: red;" /><br />
             <label><spring:message code="label.password" /><form:password path="password" /></label><br />
             <label><spring:message code="label.role" /><br />
                 <form:select path="role">
                     <c:forEach items="${roles}" var="item">
-                        <form:option value="${item}"><spring:message code='${item}' /></form:option>
+                        <form:option value="${item}"><spring:message code="${item}" /></form:option>
                     </c:forEach>
                 </form:select>
             </label>

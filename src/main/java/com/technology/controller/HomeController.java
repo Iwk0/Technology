@@ -31,8 +31,7 @@ public class HomeController {
 
         if (authentication instanceof AnonymousAuthenticationToken) {
             model.put("error", error);
-            return "static/index.html";
-            //return "login";
+            return "login";
         } else {
             return "redirect:/";
         }
