@@ -17,32 +17,7 @@ public class TableSettings {
         this.page = page;
         this.total = total;
         this.records = records;
-
-        rows = new ArrayList<>();
-    }
-
-    public String getPage() {
-        return page;
-    }
-
-    public void setPage(String page) {
-        this.page = page;
-    }
-
-    public int getTotal() {
-        return total;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
-    }
-
-    public String getRecords() {
-        return records;
-    }
-
-    public void setRecords(String records) {
-        this.records = records;
+        this.rows = new ArrayList<>();
     }
 
     public void addRow(Rows newRows) {
