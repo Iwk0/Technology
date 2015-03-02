@@ -31,7 +31,7 @@ public class User extends ParentEntity {
     @Column
     private String password;
 
-    @BulstradDistributor
+//    @BulstradDistributor
     private String amount;
 
     public String getAmount() {

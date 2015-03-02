@@ -27,6 +27,11 @@
             <c:if test="${not empty error}">
                 <br /><div style="color: red">Incorrect password</div>
             </c:if>
+
+            <input type="hidden"
+                   name="${_csrf.parameterName}"
+                   value="${_csrf.token}" />
+
             <input type="submit" value="Login" class="submit"/>
         </form>
     </body>

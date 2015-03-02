@@ -26,5 +26,6 @@
             </label>
             <input type="submit" value="<spring:message code='button.registration' />" />
         </form:form>
+        <a href="<c:url value='/' />">Home page</a>
     </body>
 </html>

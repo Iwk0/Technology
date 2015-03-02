@@ -6,7 +6,7 @@
 <html>
     <head>
         <title>Title</title>
-        <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+        <%--<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>--%>
     </head>
     <body>
         <h2>Hello <security:authentication property="principal.username" /></h2>
@@ -16,11 +16,24 @@
             <div>${user.id} ${user.username} ${user.status} <spring:message code="ACTIVE" /> ${i.index}</div>
         </c:forEach>
         <h1>Wide</h1>
-        <a href="<c:url value='/logout' />">Logout</a>
+        <%--<a href="<c:url value='/logout' />">Logout</a>--%>
         <a href="<c:url value='/controlPanel' />">Control panel</a>
+
+        <form action="<c:url value="/logout" />" id="logoutForm" method="post">
+            <input type="hidden"
+                   name="${_csrf.parameterName}"
+                   value="${_csrf.token}"/>
+        </form>
+        <script>
+            function logout() {
+                document.getElementById("logoutForm").submit();
+            }
+        </script>
+        <a href="javascript:logout();">Logout</a>
+
         <a href="<c:url value='/user/new' />">New user</a>
 
-        <script>
+        <%--<script>
             $(function() {
                 var arr = { username: "dasdsa", password: "password", id: 1, amount : "4545345344354354353454332" };
                 $.ajax({
@@ -39,6 +52,6 @@
                     }
                 });
             });
-        </script>
+        </script>--%>
     </body>
 </html>

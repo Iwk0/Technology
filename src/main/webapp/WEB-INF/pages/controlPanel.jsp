@@ -7,16 +7,64 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
     <head>
         <title></title>
+        <link type="text/css" href="http://jqueryrock.googlecode.com/svn/trunk/css/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+        <link type="text/css" href="http://jqueryrock.googlecode.com/svn/trunk/jqgrid/css/ui.jqgrid.css" rel="stylesheet" />
+        <script type="text/javascript" src="http://jqueryrock.googlecode.com/svn/trunk/js/jquery-1.8.3.js"></script>
+        <script type="text/javascript" src="http://jqueryrock.googlecode.com/svn/trunk/js/jquery-ui-1.9.2.custom.js"></script>
+        <script src="http://jqueryrock.googlecode.com/svn/trunk/jqgrid/js/grid.locale-en.js" type="text/javascript"></script>
+        <script src="http://jqueryrock.googlecode.com/svn/trunk/jqgrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
+        <script>
+            $(function () {
+                $("#list").jqGrid({
+                    url: '<c:url value="/users/list" />',
+                    datatype: "json",
+                    mtype: "GET",
+                    colNames: [ "Username", "Password", "Status" ],
+                    colModel: [
+                        { name: "username",sortable: true },
+                        { name: "password", sortable: false},
+                        { name: "status", align: "right",sortable: false }
+                    ],
+                    pager: "#pager",
+                    rowNum: 5,
+                    rownumbers: true,
+                    rowList: [5, 10, 15],
+                    height: '500',
+                    width: 'auto',
+                    loadonce: true,
+                    caption: "Simple first grid"
+                });
+
+                /*$.ajax({
+                    url: '<c:url value="/users/list" />',
+                    type: 'GET',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    async: false,
+                    success: function(msg) {
+                        console.log(JSON.stringify(msg));
+                    }
+                });*/
+            });
+        </script>
     </head>
     <body>
         <%--<jsp:include page="your jsp" />--%>
-        <h1>Control panel</h1>
+<%--        <h1>Control panel</h1>
         <security:authorize access="hasAnyRole('ADMIN', 'USER')">
             <label>Hidden</label>
         </security:authorize>
+        <a href="<c:url value='/' />">Home page</a>--%>
+        <table id="list">
+            <tr>
+                <td></td>
+            </tr>
+        </table>
+        <div id="pager"></div>
     </body>
 </html>

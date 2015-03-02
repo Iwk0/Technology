@@ -1,10 +1,12 @@
 package com.technology.controller;
 
-import com.google.gson.GsonBuilder;
 import com.technology.model.User;
+import com.technology.model.json.Rows;
+import com.technology.model.json.TableSettings;
 import com.technology.repository.UserRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,12 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -48,6 +49,22 @@ public class HomeController {
         return "controlPanel";
     }
 
+    @RequestMapping(value = "/users/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    TableSettings getListOfUsers() {
+        List<User> users = userRepository.findAll();
+        TableSettings tableSettings = new TableSettings("1", 1, String.valueOf(users.size()));
+
+        users.forEach(user -> {
+            Rows row = new Rows();
+            row.setId(String.valueOf(user.getId()));
+            row.setCell(Arrays.asList(user.getUsername(), user.getPassword(), String.valueOf(user.getStatus())));
+            tableSettings.addRow(row);
+        });
+
+        return tableSettings;
+    }
+
     @RequestMapping(value = "/")
     public String homePage(HttpServletRequest request, ModelMap model) {
         if (request.isUserInRole("ADMIN")) {
@@ -59,11 +76,11 @@ public class HomeController {
         return "index";
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET, produces="application/json")
+/*    @RequestMapping(value = "/list", method = RequestMethod.GET, produces="application/json")
     public @ResponseBody
     String getListOfUsers() {
         return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(userRepository.findAll());
-    }
+    }*/
 
     @RequestMapping(value = "/description", method = RequestMethod.POST)
     public @ResponseBody
