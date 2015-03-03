@@ -14,7 +14,7 @@
         <title></title>
         <link type="text/css" href="http://jqueryrock.googlecode.com/svn/trunk/css/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
         <link type="text/css" href="http://jqueryrock.googlecode.com/svn/trunk/jqgrid/css/ui.jqgrid.css" rel="stylesheet" />
-        <script type="text/javascript" src="http://jqueryrock.googlecode.com/svn/trunk/js/jquery-1.8.3.js"></script>
+        <script src="<c:url value="/resources/js/jquery-1.11.2.min.js" />"></script>
         <script type="text/javascript" src="http://jqueryrock.googlecode.com/svn/trunk/js/jquery-ui-1.9.2.custom.js"></script>
         <script src="http://jqueryrock.googlecode.com/svn/trunk/jqgrid/js/grid.locale-en.js" type="text/javascript"></script>
         <script src="http://jqueryrock.googlecode.com/svn/trunk/jqgrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
@@ -58,13 +58,13 @@
 <%--        <h1>Control panel</h1>
         <security:authorize access="hasAnyRole('ADMIN', 'USER')">
             <label>Hidden</label>
-        </security:authorize>
-        <a href="<c:url value='/' />">Home page</a>--%>
+        </security:authorize>--%>
         <table id="list">
             <tr>
                 <td></td>
             </tr>
         </table>
         <div id="pager"></div>
+        <a href="<c:url value='/' />">Home page</a>
     </body>
 </html>

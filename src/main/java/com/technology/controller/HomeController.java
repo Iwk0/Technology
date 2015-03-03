@@ -12,12 +12,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 
@@ -65,6 +67,25 @@ public class HomeController {
         return tableSettings;
     }
 
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public @ResponseBody
+    String handleFileUpload(@RequestParam(value = "name") String name, @RequestParam(value = "file") MultipartFile file){
+        if (!file.isEmpty() && !StringUtils.isEmpty(name)) {
+            try {
+                /*byte[] bytes = file.getBytes();
+                BufferedOutputStream stream =
+                        new BufferedOutputStream(new FileOutputStream(new File(name)));
+                stream.write(bytes);
+                stream.close();*/
+                return "You successfully uploaded " + name + "!";
+            } catch (Exception e) {
+                return "You failed to upload " + name + " => " + e.getMessage();
+            }
+        } else {
+            return "FAILED";
+        }
+    }
+
     @RequestMapping(value = "/")
     public String homePage(HttpServletRequest request, ModelMap model) {
         if (request.isUserInRole("ADMIN")) {
@@ -82,7 +103,7 @@ public class HomeController {
         return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(userRepository.findAll());
     }*/
 
-    @RequestMapping(value = "/description", method = RequestMethod.POST)
+    /*@RequestMapping(value = "/description", method = RequestMethod.POST)
     public @ResponseBody
     StringBuilder getDescription(@Valid @RequestBody User stats, BindingResult result) {
         StringBuilder sb = new StringBuilder();
@@ -94,5 +115,5 @@ public class HomeController {
             logger.error("ERROR");
         }
         return sb;
-    }
+    }*/
 }
