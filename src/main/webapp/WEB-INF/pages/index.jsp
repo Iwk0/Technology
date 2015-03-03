@@ -33,9 +33,11 @@
                             xhr.setRequestHeader(header, token);
                         },
                         complete: function(msg) {
-                            if (msg.responseText !== "FAILED") {
+                            if (msg.responseText === "SUCCESS") {
                                 stompClient.send("/app/hello", {}, JSON.stringify({'name': msg.responseText}));
                                 $("#error").text("");
+                            } else if (msg.responseText === "FORMAT") {
+                                $("#error").text("Wrong file format");
                             } else {
                                 $("#error").text("ERROR");
                             }
