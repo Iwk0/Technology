@@ -80,6 +80,7 @@ public class HomeController {
                     file.transferTo(convertedFile);
                 } catch (IOException e) {
                     logger.error("IOException", e);
+                    return "FAILED";
                 }
 
                 logger.info("Successfully file uploaded");
