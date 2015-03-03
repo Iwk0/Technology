@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.List;
 
@@ -71,15 +74,19 @@ public class HomeController {
     public @ResponseBody
     String handleFileUpload(@RequestParam(value = "name") String name, @RequestParam(value = "file") MultipartFile file){
         if (!file.isEmpty() && !StringUtils.isEmpty(name)) {
-            try {
-                /*byte[] bytes = file.getBytes();
-                BufferedOutputStream stream =
-                        new BufferedOutputStream(new FileOutputStream(new File(name)));
-                stream.write(bytes);
-                stream.close();*/
-                return "You successfully uploaded " + name + "!";
-            } catch (Exception e) {
-                return "You failed to upload " + name + " => " + e.getMessage();
+            if (file.getContentType().equals("image/jpeg")) {
+                try {
+                    byte[] bytes = file.getBytes();
+                    BufferedOutputStream stream =
+                            new BufferedOutputStream(new FileOutputStream(new File("C:\\Users\\Iwk0\\Desktop\\" + file.getOriginalFilename())));
+                    stream.write(bytes);
+                    stream.close();
+                    return "You successfully uploaded " + name + "!";
+                } catch (Exception e) {
+                    return "FAILED";
+                }
+            } else {
+                return "FAILED";
             }
         } else {
             return "FAILED";

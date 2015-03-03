@@ -138,14 +138,14 @@
       var out;
       out = Frame.marshall(command, headers, body);
       if (typeof this.debug === "function") {
-        this.debug(">>> " + out);
+        //this.debug(">>> " + out);
       }
       while (true) {
         if (out.length > this.maxWebSocketFrameSize) {
           this.ws.send(out.substring(0, this.maxWebSocketFrameSize));
           out = out.substring(this.maxWebSocketFrameSize);
           if (typeof this.debug === "function") {
-            this.debug("remaining = " + out.length);
+            //this.debug("remaining = " + out.length);
           }
         } else {
           return this.ws.send(out);
@@ -171,7 +171,7 @@
       if (!(this.heartbeat.outgoing === 0 || serverIncoming === 0)) {
         ttl = Math.max(this.heartbeat.outgoing, serverIncoming);
         if (typeof this.debug === "function") {
-          this.debug("send PING every " + ttl + "ms");
+          //this.debug("send PING every " + ttl + "ms");
         }
         this.pinger = Stomp.setInterval(ttl, (function(_this) {
           return function() {
@@ -183,7 +183,7 @@
       if (!(this.heartbeat.incoming === 0 || serverOutgoing === 0)) {
         ttl = Math.max(this.heartbeat.incoming, serverOutgoing);
         if (typeof this.debug === "function") {
-          this.debug("check PONG every " + ttl + "ms");
+          //this.debug("check PONG every " + ttl + "ms");
         }
         return this.ponger = Stomp.setInterval(ttl, (function(_this) {
           return function() {
@@ -191,7 +191,7 @@
             delta = now() - _this.serverActivity;
             if (delta > ttl * 2) {
               if (typeof _this.debug === "function") {
-                _this.debug("did not receive server activity for the last " + delta + "ms");
+                //_this.debug("did not receive server activity for the last " + delta + "ms");
               }
               return _this.ws.close();
             }
@@ -230,7 +230,7 @@
       out = this._parseConnect.apply(this, args);
       headers = out[0], this.connectCallback = out[1], errorCallback = out[2];
       if (typeof this.debug === "function") {
-        this.debug("Opening Web Socket...");
+        //this.debug("Opening Web Socket...");
       }
       this.ws.onmessage = (function(_this) {
         return function(evt) {
@@ -247,12 +247,12 @@
           _this.serverActivity = now();
           if (data === Byte.LF) {
             if (typeof _this.debug === "function") {
-              _this.debug("<<< PONG");
+              //_this.debug("<<< PONG");
             }
             return;
           }
           if (typeof _this.debug === "function") {
-            _this.debug("<<< " + data);
+            //_this.debug("<<< " + data);
           }
           _ref = Frame.unmarshall(data);
           _results = [];
@@ -261,7 +261,7 @@
             switch (frame.command) {
               case "CONNECTED":
                 if (typeof _this.debug === "function") {
-                  _this.debug("connected to server " + frame.headers.server);
+                  //_this.debug("connected to server " + frame.headers.server);
                 }
                 _this.connected = true;
                 _this._setupHeartbeat(frame.headers);
@@ -308,7 +308,7 @@
           var msg;
           msg = "Whoops! Lost connection to " + _this.ws.url;
           if (typeof _this.debug === "function") {
-            _this.debug(msg);
+            //_this.debug(msg);
           }
           _this._cleanUp();
           return typeof errorCallback === "function" ? errorCallback(msg) : void 0;
@@ -317,7 +317,7 @@
       return this.ws.onopen = (function(_this) {
         return function() {
           if (typeof _this.debug === "function") {
-            _this.debug('Web Socket Opened...');
+           // _this.debug('Web Socket Opened...');
           }
           headers["accept-version"] = Stomp.VERSIONS.supportedVersions();
           headers["heart-beat"] = [_this.heartbeat.outgoing, _this.heartbeat.incoming].join(',');
