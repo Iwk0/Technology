@@ -22,13 +22,20 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class HomeController {
 
     private static final Logger logger = Logger.getLogger(HomeController.class);
+
+    private static final Map<String, String> extensions;
+    static {
+        Map<String, String> aMap = new HashMap<>();
+        aMap.put("image/jpeg", "jpg");
+        aMap.put("image/png", "png");
+        extensions = Collections.unmodifiableMap(aMap);
+    }
 
     @Autowired
     private UserRepository userRepository;
@@ -73,8 +80,10 @@ public class HomeController {
     public @ResponseBody
     String handleFileUpload(@RequestParam(value = "name") String name, @RequestParam(value = "file") MultipartFile file){
         if (!file.isEmpty() && !StringUtils.isEmpty(name)) {
-            if (file.getContentType().equals("image/jpeg")) {
-                File convertedFile = new File("C:\\Users\\Iwk0\\Desktop\\" + file.getOriginalFilename());
+            String extension = file.getContentType();
+
+            if (extension.equals("image/jpeg") || extension.equals("image/png")) {
+                File convertedFile = new File(System.getProperty("user.home") + "\\Desktop\\" + name + "." + extensions.get(extension));
 
                 try {
                     file.transferTo(convertedFile);

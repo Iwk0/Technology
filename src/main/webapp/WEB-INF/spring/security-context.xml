@@ -37,6 +37,16 @@
         <csrf />
     </http>
 
+<!--    <beans:bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <beans:property name="targetClass"><beans:value>org.springframework.security.core.context.SecurityContextHolder</beans:value></beans:property>
+        <beans:property name="targetMethod"><beans:value>setStrategyName</beans:value></beans:property>
+        <beans:property name="arguments">
+            <beans:list>
+                <beans:value>MODE_INHERITABLETHREADLOCAL</beans:value>
+            </beans:list>
+        </beans:property>
+    </beans:bean>-->
+
     <authentication-manager>
         <authentication-provider>
             <password-encoder hash="sha-256" />
