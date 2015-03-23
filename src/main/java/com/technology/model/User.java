@@ -1,14 +1,13 @@
 package com.technology.model;
 
 import com.google.gson.annotations.Expose;
-import com.technology.util.validation.BulstradDistributor;
+import com.technology.util.validation.NotSame;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.validation.constraints.NotNull;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,12 +25,13 @@ public class User extends ParentEntity {
     @Expose
     @Column
     @NotBlank
+    @NotSame
     private String username;
 
     @Column
     private String password;
 
-//    @BulstradDistributor
+    //@Number
     private String amount;
 
     public String getAmount() {
@@ -48,7 +48,7 @@ public class User extends ParentEntity {
     private Status status = Status.ACTIVE;
 
     @Expose
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     private Role role = Role.USER;
 
     public String getUsername() {

@@ -11,17 +11,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Created with IntelliJ IDEA.
- * User: dpavlov
- * Date: 14-1-22
- * Time: 13:36
- * To change this template use File | Settings | File Templates.
+ * User: imishev
+ * Date: 15-3-11
+ * Time: 9:51
  */
 @Target({METHOD, FIELD, ANNOTATION_TYPE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = BulstradDistributorValidator.class)
+@Constraint(validatedBy = NotSameValidator.class)
 @Documented
-public @interface BulstradDistributor {
-    String message() default "Вече има запис с този БУЛСТАТ!";
+public @interface NotSame {
+    String message() default "NotSame";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

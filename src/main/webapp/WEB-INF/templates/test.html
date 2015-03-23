@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    </head>
+    <body>
+        <a href="list.html" th:href="@{/order/list}">Return to order list</a>
+        <p th:text="#{button.registration}">Welcome to our grocery store!</p>
+
+        <div th:object="${user}">
+            <h1 th:text="*{username}">Test</h1>
+            <h2 th:text="${#object.password}"></h2>
+        </div>
+
+        <form th:action="@{/testt}" th:object="${user}" method="post">
+            <input type="text" th:field="*{username}"/>
+            <input type="submit" value="Submit"/>
+            <input type="reset" value="Reset"/>
+        </form>
+
+        <div th:each="user, row : ${users}">
+            <span th:text="${row.odd} ? test : test1"></span>
+            <span th:text="${user.username}">Username</span>
+            <label th:text="#{USER}"><input type="text" name="userName" value="James Carrot" th:value="${user.username}" /></label>
+            <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}"></span>
+        </div>
+    </body>
+</html>

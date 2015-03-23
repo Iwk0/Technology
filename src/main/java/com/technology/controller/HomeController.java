@@ -13,10 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,14 +46,29 @@ public class HomeController {
 
         if (authentication instanceof AnonymousAuthenticationToken) {
             model.put("error", error);
-            return "login";
+            return "login.jsp";
         } else {
             return "redirect:/";
         }
     }
 
+    @RequestMapping(value = "/testt", method = RequestMethod.GET)
+    public String getTest(ModelMap model) {
+        model.put("users", userRepository.findAll());
+        model.put("user", userRepository.findOne(1L));
+        return "test";
+    }
+
+    @RequestMapping(value = "/testt", method = RequestMethod.POST)
+    public String getTestPost(@ModelAttribute("user") User user, ModelMap model) {
+        model.put("users", userRepository.findAll());
+        model.put("user", user);
+        return "redirect:/testt";
+    }
+
     @RequestMapping(value = "/controlPanel")
-    public String controlPanel() {
+    public String controlPanel(ModelMap model) {
+        model.put("users", userRepository.findAll());
         return "controlPanel";
     }
 

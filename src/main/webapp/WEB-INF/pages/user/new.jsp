@@ -15,7 +15,7 @@
     </head>
     <body>
         <form:form modelAttribute="user">
-            <label><spring:message code="label.username" /><form:input path="username" /></label><form:errors path="username" cssStyle="color: red;" /><br />
+            <label><spring:message code="label.username" /><form:input path="username" /></label><form:errors path="username" cssClass="error" /><br />
             <label><spring:message code="label.password" /><form:password path="password" /></label><br />
             <label><spring:message code="label.role" /><br />
                 <form:select path="role">
