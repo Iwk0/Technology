@@ -2,6 +2,8 @@ package com.technology.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.sql.Blob;
 
 /**
@@ -13,6 +15,10 @@ import java.sql.Blob;
 @Entity
 public class File extends ParentEntity {
 
+    public enum ContentType {
+        IMAGE, VIDEO, TEXT
+    }
+
     @Column
     private Blob file;
 
@@ -20,7 +26,8 @@ public class File extends ParentEntity {
     private String name;
 
     @Column
-    private String contentType;
+    @Enumerated(EnumType.STRING)
+    private ContentType contentType = ContentType.TEXT;
 
     public Blob getFile() {
         return file;
@@ -38,11 +45,11 @@ public class File extends ParentEntity {
         this.name = name;
     }
 
-    public String getContentType() {
+    public ContentType getContentType() {
         return contentType;
     }
 
-    public void setContentType(String contentType) {
+    public void setContentType(ContentType contentType) {
         this.contentType = contentType;
     }
 }

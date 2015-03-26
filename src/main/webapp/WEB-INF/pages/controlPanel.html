@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title></title>
         <link type="text/css" href="http://jqueryrock.googlecode.com/svn/trunk/css/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
@@ -47,9 +47,11 @@
     <body>
         <!--<jsp:include page="your jsp" />-->
         <h1>Control panel</h1>
-        <div sec:auhorize="hasRole('ADMIN')">
+
+        <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
             <label>Hidden</label>
         </div>
+
         <table id="list">
             <tr>
                 <td></td>

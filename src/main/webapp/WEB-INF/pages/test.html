@@ -24,13 +24,12 @@
 
         <div th:each="file : ${files}">
             <span th:text="${file.name}">Name</span>
-            <!--"@{/order/{orderId}/details(orderId=${o.id})}"-->
-            <a href="/users/list" th:href="@{'/download/' + ${file.id}}">Download</a>
+            <a href="/users/list" th:href="@{{id}/download(id=${file.id})}">Download</a>
         </div>
 
         <a href="details.html" th:href="@{/order/{id}/details(id=${id})}">view</a>
 
-        <form method="post" enctype="multipart/form-data" th:action="@{/upload(_csrf=${_csrf.token})}">
+        <form method="post" enctype="multipart/form-data" th:action="@{/file/new(${_csrf.parameterName}=${_csrf.token})}">
             File to upload: <input type="file" name="file" /><br />
             Name: <input type="text" name="name" /><br /> <br />
             Press here to upload the file: <input type="submit" value="Upload" />

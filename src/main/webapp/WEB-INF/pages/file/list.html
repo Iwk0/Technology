@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <div th:each="file : ${files}">
+            <div th:if="${file.contentType == 'IMAGE'}"><img src="" th:src="@{{id}/download(id=${file.id})}" /></div>
+            <a th:text="${file.name}" th:href="@{{id}/download(id=${file.id})}">Download</a>
+        </div>
+        <a th:href="@{/}">Home page</a>
+    </body>
+</html>
