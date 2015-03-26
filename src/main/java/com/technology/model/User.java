@@ -2,12 +2,12 @@ package com.technology.model;
 
 import com.google.gson.annotations.Expose;
 import com.technology.util.validation.NotSame;
-import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.Size;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,7 +24,7 @@ public class User extends ParentEntity {
 
     @Expose
     @Column
-    @NotBlank
+    @Size(min = 4)
     @NotSame
     private String username;
 

@@ -11,7 +11,7 @@
             <label th:text="#{label.password}">Password</label><input type="password" th:field="*{password}" /><br />
             <label th:text="#{label.role}">Roles</label><br />
             <select th:field="*{role}">
-                <option th:each="role : ${roles}" th:value="${role}" th:text="#{role}">Options</option>
+                <option th:each="role : ${roles}" th:value="${role}" th:text="#{${role}}">Options</option>
             </select>
             <input type="submit" th:value="#{button.registration}" />
         </form>

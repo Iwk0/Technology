@@ -1,5 +1,8 @@
 package com.technology.util.validation;
 
+import com.technology.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -11,11 +14,14 @@ import javax.validation.ConstraintValidatorContext;
  */
 public class NotSameValidator implements ConstraintValidator<NotSame, String> {
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public void initialize(NotSame notSame) {}
 
     @Override
     public boolean isValid(String username, ConstraintValidatorContext constraintValidatorContext) {
-        return !username.equals("admin");
+        return userRepository.findByUsername(username) == null;
     }
 }
