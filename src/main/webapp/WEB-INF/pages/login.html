@@ -14,14 +14,9 @@
             <div>
                 <label>Password: <input type="password" name="password"/></label>
             </div>
-            <div th:if="${error} != null">
+            <div th:if="${error} ne null">
                 <br /><div style="color: red">Incorrect password</div>
             </div>
-
-<!--            <input type="hidden"
-                   name="${_csrf.parameterName}"
-                   value="${_csrf.token}" />-->
-
             <input type="submit" value="Login" class="submit"/>
         </form>
     </body>

@@ -5,9 +5,21 @@
     </head>
     <body>
         <div th:each="file : ${files}">
-            <div th:if="${file.contentType == 'IMAGE'}"><img src="" th:src="@{{id}/download(id=${file.id})}" /></div>
-            <a th:text="${file.name}" th:href="@{{id}/download(id=${file.id})}">Download</a>
+            <div th:switch="${file.contentType}">
+                <p th:case="${T(com.technology.model.File.ContentType).IMAGE}"><img src="" th:src="@{{id}/download(id=${file.id})}" /></p>
+                <p th:case="${T(com.technology.model.File.ContentType).TEXT}">
+
+                </p>
+                <p th:case="${T(com.technology.model.File.ContentType).VIDEO}">
+                    <video width="500" height="500" controls="controls">
+                        <source src="" th:src="@{{id}/download(id=${file.id})}" type="video/mp4" />
+                        <source src="movie.ogg" type="video/ogg" />
+                        Your browser does not support the video tag.
+                    </video>
+                </p>
+            </div>
         </div>
+
         <a th:href="@{/}">Home page</a>
     </body>
 </html>

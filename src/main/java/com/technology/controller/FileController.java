@@ -57,7 +57,7 @@ public class FileController {
         if (!file.isEmpty() && !StringUtils.isEmpty(name)) {
             String extension = file.getContentType();
 
-            if (extension.equals("image/jpeg") || extension.equals("image/png")) {
+            if (extension.equals("image/jpeg") || extension.equals("image/png") || extension.equals("video/mp4")) {
                 /*File convertedFile = new File(System.getProperty("user.home") + "\\Desktop\\" + name + "." + extensions.get(extension));
 
                 try {
