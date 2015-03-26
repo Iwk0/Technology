@@ -1,10 +1,14 @@
 package com.technology.controller;
 
+import com.technology.model.File;
 import com.technology.model.User;
 import com.technology.model.json.Rows;
 import com.technology.model.json.TableSettings;
+import com.technology.repository.FileRepository;
 import com.technology.repository.UserRepository;
-import org.apache.log4j.Logger;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -17,14 +21,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.*;
 
 @Controller
 public class HomeController {
 
-    private static final Logger logger = Logger.getLogger(HomeController.class);
+    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     private static final Map<String, String> extensions;
     static {
@@ -36,6 +42,9 @@ public class HomeController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private FileRepository fileRepository;
 
 /*    @Value("${date.format}")
     private String dateFormat;*/
@@ -52,10 +61,13 @@ public class HomeController {
         }
     }
 
-    @RequestMapping(value = "/testt", method = RequestMethod.GET)
-    public String getTest(ModelMap model) {
+    @RequestMapping(value = "/testt/{id}", method = RequestMethod.GET)
+    public String getTest(@PathVariable(value = "id") String id, ModelMap model) {
         model.put("users", userRepository.findAll());
-        model.put("user", userRepository.findOne(1L));
+        model.put("user", userRepository.findOne(Long.valueOf(id)));
+        model.put("files", fileRepository.findAll());
+        model.put("id", "5");
+
         return "test";
     }
 
@@ -88,29 +100,57 @@ public class HomeController {
         return tableSettings;
     }
 
+    @RequestMapping(value = "/download/{id}", method = RequestMethod.GET)
+    public void download(@PathVariable("id") String id, HttpServletResponse response) {
+        File file = fileRepository.findOne(Long.valueOf(id));
+        try {
+            IOUtils.copy(file.getFile().getBinaryStream(), response.getOutputStream());
+            response.flushBuffer();
+        } catch (IOException e) {
+            logger.error("SQLException", e);
+        } catch (SQLException e) {
+            logger.error("IOException", e);
+        }
+    }
+
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public @ResponseBody
-    String handleFileUpload(@RequestParam(value = "name") String name, @RequestParam(value = "file") MultipartFile file){
+    @ResponseBody
+    public String handleFileUpload(@RequestParam(value = "name") String name, @RequestParam(value = "file") MultipartFile file){
         if (!file.isEmpty() && !StringUtils.isEmpty(name)) {
             String extension = file.getContentType();
 
             if (extension.equals("image/jpeg") || extension.equals("image/png")) {
-                File convertedFile = new File(System.getProperty("user.home") + "\\Desktop\\" + name + "." + extensions.get(extension));
+                /*File convertedFile = new File(System.getProperty("user.home") + "\\Desktop\\" + name + "." + extensions.get(extension));
 
                 try {
                     file.transferTo(convertedFile);
                 } catch (IOException e) {
                     logger.error("IOException", e);
                     return "FAILED";
+                }*/
+
+                com.technology.model.File tempFile = new com.technology.model.File();
+                tempFile.setContentType(file.getContentType());
+                tempFile.setName(file.getOriginalFilename());
+
+                try {
+                    tempFile.setFile(new SerialBlob(file.getBytes()));
+                } catch (SQLException e) {
+                    logger.error("SQLException", e);
+                } catch (IOException e) {
+                    logger.error("IOException", e);
                 }
 
+                fileRepository.save(tempFile);
+
                 logger.info("Successfully file uploaded");
+
                 return "SUCCESS";
             } else {
                 return "FORMAT";
             }
         } else {
-            return "FAILED";
+           return "FAILED";
         }
     }
 
