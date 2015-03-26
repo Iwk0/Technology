@@ -20,9 +20,9 @@
 
     <http use-expressions="true">
         <intercept-url pattern="/login*" access="isAnonymous()" />
-        <!--<security:intercept-url pattern="/controlPanel" access="hasRole('ADMIN')" />-->
-        <intercept-url pattern="/accessDenied" access="isAuthenticated()" />
+        <intercept-url pattern="/controlPanel" access="hasRole('ADMIN')" />
         <intercept-url pattern="/test*" access="hasRole('ADMIN')" />
+        <intercept-url pattern="/accessDenied" access="isAuthenticated()" />
         <intercept-url pattern="/**" access="isAuthenticated()" />
 
         <form-login login-page="/login"

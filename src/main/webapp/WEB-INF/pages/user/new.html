@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Title</title>
+        <link rel="stylesheet" type="text/css" href="main.css" th:href="@{/resources/css/main.css}" />
+    </head>
+    <body>
+        <form th:object="${user}" th:action="@{/user/new}" method="post">
+            <label th:text="#{label.username}">Text</label><input type="text" th:field="*{username}" />
+            <span th:each="err : ${#fields.errors('username')}" class="error" th:text="${err}">Error</span><br />
+            <label th:text="#{label.password}">Password</label><input type="password" th:field="*{password}" /><br />
+            <label th:text="#{label.role}">Roles</label><br />
+            <select th:field="*{role}">
+                <option th:each="role : ${roles}" th:value="${role}" th:text="#{${role}}">Options</option>
+            </select>
+            <input type="submit" th:value="#{button.registration}" />
+        </form>
+        <a th:href="@{/}">Home page</a>
+    </body>
+</html>

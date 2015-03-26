@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    </head>
+    <body>
+        <a href="list.html" th:href="@{/order/list}">Return to order list</a>
+        <p th:text="#{button.registration}">Welcome to our grocery store!</p>
+
+        <label>Email: <input type="email" placeholder="Email" id="email" /></label>
+        <button onclick="message();">Get email</button>
+
+        <div th:object="${user}">
+            <h1 th:text="*{username}">Test</h1>
+            <h2 th:text="${#object.password}"></h2>
+        </div>
+
+<!--        <form th:action="@{/testt}" th:object="${user}" method="post">
+            <input type="email" th:field="*{username}" placeholder="your@email" />
+            <input type="email" th:field="*{username}" placeholder="your@email" />
+            <input type="submit" value="Submit"/>
+            <input type="reset" value="Reset"/>
+        </form>-->
+
+        <div th:each="file : ${files}">
+            <span th:text="${file.name}">Name</span>
+            <a href="/users/list" th:href="@{{id}/download(id=${file.id})}">Download</a>
+        </div>
+
+        <a href="details.html" th:href="@{/order/{id}/details(id=${id})}">view</a>
+
+        <form method="post" enctype="multipart/form-data" th:action="@{/file/new(${_csrf.parameterName}=${_csrf.token})}">
+            File to upload: <input type="file" name="file" /><br />
+            Name: <input type="text" name="name" /><br /> <br />
+            Press here to upload the file: <input type="submit" value="Upload" />
+            <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+        </form>
+
+        <div th:each="user, row : ${users}">
+            <span th:text="${row.odd} ? test : test1"></span>
+            <span th:text="${user.username}">Username</span>
+            <label th:text="#{USER}">: <input type="text" name="userName" value="James Carrot" th:value="${user.username}" /></label>
+            <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}"></span>
+        </div>
+
+        <script>
+            var email = document.querySelector('input[type="email"]');
+
+            email.oninvalid = function(e) {
+                e.target.setCustomValidity("");
+
+                if (!e.target.validity.valid) {
+                    e.target.setCustomValidity("Please enter a valid eMail address");
+                }
+            };
+        </script>
+    </body>
+</html>
