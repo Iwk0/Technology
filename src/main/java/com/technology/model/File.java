@@ -1,5 +1,7 @@
 package com.technology.model;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -23,6 +25,7 @@ public class File extends ParentEntity {
     private Blob file;
 
     @Column
+    @Expose
     private String name;
 
     @Column

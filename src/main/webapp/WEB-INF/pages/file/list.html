@@ -2,24 +2,63 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title></title>
+        <script th:src="@{/resources/js/jquery-1.11.2.min.js}"></script>
+        <script th:src="@{/resources/js/jquery-scrollto.js}"></script>
+        <style>
+            .center {
+                margin-left: auto;
+                margin-right: auto;
+                width: 50%
+            }
+        </style>
+        <script th:inline="javascript">
+            $(function() {
+                var main = $("#main");
+                var pageNumber = [[${files.number}]] + 2;
+                var oldPageNumber = -1;
+
+                $(window).scroll(function() {
+                    if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+                        console.log(oldPageNumber + " " + pageNumber);
+                        if (oldPageNumber != pageNumber) {
+                            $.ajax({
+                                url: '/file/list/' + pageNumber,
+                                type: 'GET',
+                                contentType: 'json',
+                                success: function(json) {
+                                    var array = JSON.parse(json);
+
+                                    $.each(array.content, function(i, val) {
+                                        main.append('<div class="center"><img src="/file/' + val.id + '/download" /></div>');
+                                    });
+
+                                    oldPageNumber = pageNumber;
+                                    pageNumber = array.pageable.page + 2;
+                                }
+                            });
+                        }
+                    }
+                });
+
+                $("#goToTop").on("click", function() {
+                    $('#top').ScrollTo({
+                        duration: 1000,
+                        durationMode: 'all'
+                    });
+                });
+            });
+        </script>
     </head>
     <body>
-        <div th:each="file : ${files}">
-            <div th:switch="${file.contentType}">
-                <p th:case="${T(com.technology.model.File.ContentType).IMAGE}"><img src="" th:src="@{{id}/download(id=${file.id})}" /></p>
-                <p th:case="${T(com.technology.model.File.ContentType).TEXT}">
+        <div id="top"></div>
 
-                </p>
-                <p th:case="${T(com.technology.model.File.ContentType).VIDEO}">
-                    <video width="500" height="500" controls="controls">
-                        <source src="" th:src="@{{id}/download(id=${file.id})}" type="video/mp4" />
-                        <source src="movie.ogg" type="video/ogg" />
-                        Your browser does not support the video tag.
-                    </video>
-                </p>
+        <div id="main">
+            <div class="center" th:each="file : ${files.content}">
+                <img src="" width="500px" height="500px" th:src="@{/file/{id}/download(id=${file.id})}" />
             </div>
         </div>
 
+        <button style="position: fixed; bottom: 0; width: 100%" id="goToTop">Go to top</button>
         <a th:href="@{/}">Home page</a>
     </body>
 </html>

@@ -1,5 +1,7 @@
 package com.technology.model;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -14,6 +16,7 @@ import java.util.Date;
 public class ParentEntity implements Serializable {
 
     @Id
+    @Expose
     @GeneratedValue
     private Long id;
 

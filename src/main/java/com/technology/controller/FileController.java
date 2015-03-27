@@ -1,11 +1,14 @@
 package com.technology.controller;
 
+import com.google.gson.Gson;
 import com.technology.model.File;
 import com.technology.repository.FileRepository;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -34,8 +37,17 @@ public class FileController {
 
     @RequestMapping(value = "/list")
     public String fileList(ModelMap model) {
-        model.put("files", fileRepository.findAll());
+        model.put("files", fileRepository.findAll(new PageRequest(0, 4)));
         return "file/list";
+    }
+
+    @RequestMapping(value = "/list/{page}")
+    public @ResponseBody
+    String getNewFiles(@PathVariable(value = "page") String page) {
+        Pageable pageable = new PageRequest(Integer.valueOf(page) - 1, 2);
+        Gson gson = new Gson();
+        String json = gson.toJson(fileRepository.findAll(pageable));
+        return json;
     }
 
     @RequestMapping(value = "/{id}/download", method = RequestMethod.GET)

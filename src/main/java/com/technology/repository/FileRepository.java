@@ -1,7 +1,7 @@
 package com.technology.repository;
 
 import com.technology.model.File;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,5 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Date: 15-3-24
  * Time: 16:48
  */
-public interface FileRepository extends JpaRepository<File, Long> {
+public interface FileRepository extends PagingAndSortingRepository<File, Long> {
 }
