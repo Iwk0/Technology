@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <script th:src="@{/resources/js/jquery-1.11.2.min.js}"></script>
+        <style>
+            .center {
+                margin-left: auto;
+                margin-right: auto;
+                width: 50%
+            }
+
+            .scale {
+                width: 100%;
+                height: 500px;
+            }
+
+            #parent {
+                overflow: hidden;
+                border: 1px solid red
+            }
+            .right {
+                float: right;
+                width: 100px;
+                height: 100px;
+                background: #888;
+            }
+            .left {
+                overflow: hidden;
+                height: 100px;
+                background: #ccc
+            }
+        </style>
+        <script>
+            $(function() {
+                $("#commentButton").bind("click", function() {
+                    $("#comments").append("<div>" + $("#commentField").val() + "</div>");
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="center" th:object="${file}">
+            <div th:text="*{name}">Name</div>
+            <img src="" class="scale" th:src="@{/file/{id}/download(id=*{id})}" />
+            <!--<div id="parent">-->
+                <button style="height: 50px; display:block; float: right" id="commentButton">Comment</button>
+                <input style="height: 50px" type="text" id="commentField" />
+            <!--</div>-->
+            <div style="clear: both"></div>
+        </div>
+        <div class="center" id="comments"></div>
+    </body>
+</html>

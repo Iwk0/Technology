@@ -1,64 +1,90 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title></title>
         <script th:src="@{/resources/js/jquery-1.11.2.min.js}"></script>
         <script th:src="@{/resources/js/jquery-scrollto.js}"></script>
+        <script th:inline="javascript">
+            $(function() {
+                var main = $("#main");
+                var pageNumber = [[${files.number}]] + 1;
+                var oldPageNumber = -1;
+
+                $(".scale").bind("click", openSinglePicture);
+
+                $(window).scroll(function() {
+                    if ($(window).scrollTop() + $(window).height() > $(document).height() - 300) {
+                        if (oldPageNumber != pageNumber) {
+                            getNewImages();
+                            oldPageNumber = pageNumber;
+                        }
+                    }
+                });
+
+                $("#scrollToTop").on("click", function() {
+                    $("#top").ScrollTo({
+                        duration: 1000,
+                        durationMode: 'all'
+                    });
+                });
+
+                function openSinglePicture(e) {
+                    var id = $(e.target).parent().find("input:hidden").val();
+                    window.open("/image/" + id, "_blank");
+                }
+
+                function getNewImages() {
+                    $.ajax({
+                        url: '/file/list/' + pageNumber,
+                        type: 'GET',
+                        contentType: 'json',
+                        success: function(json) {
+                            var page = JSON.parse(json);
+                            var pageContent = page.content;
+
+                            $.each(pageContent, function(i, val) {
+                                var scaleClass = $(".scale");
+                                var id = val.id;
+
+                                main.append('<div class="center">' +
+                                '<img src="/file/' + id + '/download" class="scale" />' +
+                                '<input type="hidden" value="' + id + '" /></div>');
+
+                                scaleClass.unbind();
+                                scaleClass.bind("click", openSinglePicture);
+                            });
+
+                            if (!$.isEmptyObject(pageContent)) {
+                                pageNumber = page.pageable.page + 1;
+                            }
+                        }
+                    });
+                }
+            });
+        </script>
         <style>
             .center {
                 margin-left: auto;
                 margin-right: auto;
                 width: 50%
             }
+
+            .scale {
+                width: 500px;
+                height: 500px;
+            }
         </style>
-        <script th:inline="javascript">
-            $(function() {
-                var main = $("#main");
-                var pageNumber = [[${files.number}]] + 2;
-                var oldPageNumber = -1;
-
-                $(window).scroll(function() {
-                    if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
-                        console.log(oldPageNumber + " " + pageNumber);
-                        if (oldPageNumber != pageNumber) {
-                            $.ajax({
-                                url: '/file/list/' + pageNumber,
-                                type: 'GET',
-                                contentType: 'json',
-                                success: function(json) {
-                                    var array = JSON.parse(json);
-
-                                    $.each(array.content, function(i, val) {
-                                        main.append('<div class="center"><img src="/file/' + val.id + '/download" /></div>');
-                                    });
-
-                                    oldPageNumber = pageNumber;
-                                    pageNumber = array.pageable.page + 2;
-                                }
-                            });
-                        }
-                    }
-                });
-
-                $("#goToTop").on("click", function() {
-                    $('#top').ScrollTo({
-                        duration: 1000,
-                        durationMode: 'all'
-                    });
-                });
-            });
-        </script>
     </head>
     <body>
         <div id="top"></div>
 
         <div id="main">
             <div class="center" th:each="file : ${files.content}">
-                <img src="" width="500px" height="500px" th:src="@{/file/{id}/download(id=${file.id})}" />
+                <img src="" class="scale" th:src="@{/file/{id}/download(id=${file.id})}" />
+                <input type="hidden" th:value="${file.id}" />
             </div>
         </div>
 
-        <button style="position: fixed; bottom: 0; width: 100%" id="goToTop">Go to top</button>
+        <button id="scrollToTop" style="position: fixed; bottom: 0;">Go to top</button>
         <a th:href="@{/}">Home page</a>
     </body>
 </html>

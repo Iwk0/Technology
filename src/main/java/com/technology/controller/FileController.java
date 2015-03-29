@@ -44,10 +44,9 @@ public class FileController {
     @RequestMapping(value = "/list/{page}")
     public @ResponseBody
     String getNewFiles(@PathVariable(value = "page") String page) {
-        Pageable pageable = new PageRequest(Integer.valueOf(page) - 1, 2);
+        Pageable pageable = new PageRequest(Integer.valueOf(page), 4);
         Gson gson = new Gson();
-        String json = gson.toJson(fileRepository.findAll(pageable));
-        return json;
+        return gson.toJson(fileRepository.findAll(pageable));
     }
 
     @RequestMapping(value = "/{id}/download", method = RequestMethod.GET)
@@ -65,7 +64,8 @@ public class FileController {
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     @ResponseBody
-    public String handleFileUpload(@RequestParam(value = "name") String name, @RequestParam(value = "file") MultipartFile file){
+    public String handleFileUpload(@RequestParam(value = "name") String name,
+                                   @RequestParam(value = "file") MultipartFile file){
         if (!file.isEmpty() && !StringUtils.isEmpty(name)) {
             String extension = file.getContentType();
 
