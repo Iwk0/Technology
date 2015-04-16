@@ -65,6 +65,7 @@ public class ParentEntity implements Serializable {
         if (this == o) {
             return true;
         }
+
         if (!(o instanceof ParentEntity)) {
             return false;
         }
