@@ -1,6 +1,8 @@
 package com.technology.model;
 
 import com.google.gson.annotations.Expose;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,37 +24,19 @@ public class File extends ParentEntity {
     }
 
     @Column
+    @Getter
+    @Setter
     private Blob file;
 
     @Column
     @Expose
+    @Getter
+    @Setter
     private String name;
 
     @Column
     @Enumerated(EnumType.STRING)
+    @Getter
+    @Setter
     private ContentType contentType = ContentType.TEXT;
-
-    public Blob getFile() {
-        return file;
-    }
-
-    public void setFile(Blob file) {
-        this.file = file;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public ContentType getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(ContentType contentType) {
-        this.contentType = contentType;
-    }
 }

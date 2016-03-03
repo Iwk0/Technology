@@ -20,6 +20,7 @@
 
     <http use-expressions="true">
         <intercept-url pattern="/login*" access="isAnonymous()" />
+        <intercept-url pattern="/ajax*" access="isAnonymous()" />
         <intercept-url pattern="/controlPanel" access="hasRole('ADMIN')" />
         <intercept-url pattern="/test*" access="hasRole('ADMIN')" />
         <intercept-url pattern="/accessDenied" access="isAuthenticated()" />

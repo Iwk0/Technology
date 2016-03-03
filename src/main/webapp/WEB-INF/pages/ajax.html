@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta name="_csrf" th:content="${_csrf.token}" />
+        <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+        <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script>
+            $(function() {
+                /*Tree*/
+                var DELETE_IMAGE = '<img class="delete" src="/resources/images/delete.png" />';
+                var token = $("meta[name='_csrf']").attr("content");
+                var header = $("meta[name='_csrf_header']").attr("content");
+                var element;
+                var oldElement;
+                var getCurrentElement = function () {
+                    element = $(this);
+
+                    if (typeof oldElement != 'undefined') {
+                        oldElement.css("color", "black");
+                    }
+
+                    element.css("color", "blue");
+                    element.children().css("color", "black");
+                    oldElement = element;
+                    return false;
+                };
+
+                var bindDeleteClick = function () {
+                    $(".delete").off().on("click", function () {
+                        var parent = $(this).parent();
+                        var id = parent.attr("id");
+
+                        $.ajax({
+                            url: 'http://localhost:8080/ajax/' + id + '/remove',
+                            type: 'POST',
+                            success: function(status) {
+                                var message = confirm("Сигурни ли стe, че искате да изтриете?");
+
+                                if (message) {
+                                    if (status === "success") {
+                                        parent.remove();
+                                    } else {
+                                        alert("Има вързан актив към това местоположение");
+                                    }
+                                }
+                            }
+                        });
+
+                        return false;
+                    });
+                };
+
+                function iterateTree(parsedTree) {
+                    var treeMapElement = $("#tree");
+                    var parent;
+                    var child;
+                    var item;
+
+                    parsedTree.forEach(function (elem) {
+                        if (typeof elem.parent != 'undefined') {
+                            parent = $("#" + elem.parent);
+                            child = parent.find(".child");
+                            item = '<li level=\"' + elem.level + '\" id=\"' + elem.id + '\">' + elem.value + ' ' + DELETE_IMAGE + '</li>';
+
+                            if (child.length) {
+                                child.append(item);
+                            } else {
+                                parent.append($("<ul class='child' />").append(item));
+                            }
+
+                            if (elem.level !== 5) {
+                                $("#" + elem.id).on("click", getCurrentElement);
+                            }
+
+                            if (!parent.find(".expand").length) {
+                                expandTree(parent);
+                            }
+                        } else {
+                            treeMapElement.append('<li level=\"1\" id=\"' + elem.id + '\">' + elem.value + ' ' + DELETE_IMAGE + '</li>');
+                            $("#" + elem.id).on("click", getCurrentElement);
+                        }
+
+                        bindDeleteClick();
+
+                        elem.children.forEach(function (child) {
+                            child.parent = elem.id;
+                        });
+
+                        if (elem.children.length) {
+                            iterateTree(elem.children);
+                        }
+                    });
+                }
+
+                function expandTree(parent) {
+                    var treeExpand = $("<span expand='true' class='expand'>-</span>");
+                    var isExpanded = false;
+                    var expandedObject;
+
+                    parent.prepend(treeExpand);
+
+                    treeExpand.on("click", function () {
+                        expandedObject = $(this);
+                        isExpanded = (expandedObject.attr("expand") === "true");
+
+                        if (isExpanded) {
+                            expandedObject.text("+");
+                        } else {
+                            expandedObject.text("-");
+                        }
+
+                        expandedObject.attr("expand", !isExpanded);
+                        expandedObject.parent().find("ul").slideToggle('fast');
+
+                        return false;
+                    });
+                }
+
+                iterateTree(JSON.parse('[{"level":1,"value":"Bulgaria","children":[{"level":2,"value":"София","children":[{"level":3,"value":"Люлин","children":[],"id":18},{"level":3,"value":"Младост","children":[{"level":4,"value":"Етаж 10","children":[],"id":21},{"level":4,"value":"Етаж2","children":[{"level":5,"value":"Стая 2","children":[],"id":20},{"level":5,"value":"Стая 6","children":[],"id":22},{"level":5,"value":"Стая 3","children":[],"id":11}],"id":10}],"id":9}],"id":8}],"id":5},{"level":1,"value":"Germany","children":[],"id":32}]'));
+
+                $("#add_node").on("click", function (event) {
+                    var selectedNode = $('input[name=node]:checked', '#settings').val();
+                    var mainValue = $("#main_value");
+                    var treeMapElement = $("#tree");
+                    var nodeValue = mainValue.val();
+                    var innerElement;
+                    var level;
+                    var child;
+                    var json;
+
+                    event.preventDefault();
+                    mainValue.val("");
+
+                    if (!nodeValue.trim().length) {
+                        return;
+                    }
+
+                    if (selectedNode === "main") {
+                        json = {
+                            "level" : 1,
+                            "value" : nodeValue,
+                            "children" : []
+                        };
+
+                        $.ajax({
+                            url: 'http://localhost:8080/ajax',
+                            data: {'json' : JSON.stringify(json)},
+                            type: 'POST',
+                            beforeSend: function(xhr) {
+                                xhr.setRequestHeader(header, token);
+                            },
+                            success: function (id) {
+                                innerElement = $('<li level=\"1\" id=\"' + id + '\">' + nodeValue + ' ' + DELETE_IMAGE + '</li>');
+                                innerElement.on("click", getCurrentElement);
+                                treeMapElement.append(innerElement);
+                                bindDeleteClick();
+                            }
+                        });
+                    } else {
+                        if (typeof element != 'undefined') {
+                            level = parseInt(element.attr("level"), 10) + 1;
+
+                            json = {
+                                "id" : element.attr("id"),
+                                "level" : level,
+                                "value" : nodeValue,
+                                "children" : []
+                            };
+
+                            $.ajax({
+                                url: 'http://127.0.0.1:8080/ajax',
+                                data: {'json' : JSON.stringify(json)},
+                                type: 'POST',
+                                beforeSend: function(xhr) {
+                                    xhr.setRequestHeader(header, token);
+                                },
+                                success: function (id) {
+                                    child = element.find(".child:first");
+                                    innerElement = $('<li style=\"color: black\" level=\"' + level + '\">' + nodeValue + ' ' + DELETE_IMAGE + '</li>');
+
+                                    if (child.length) {
+                                        child.append(innerElement);
+                                    } else {
+                                        element.append($("<ul class='child' />").append(innerElement));
+                                    }
+
+                                    if (!element.find(".expand").length) {
+                                        expandTree(element);
+                                    }
+
+                                    if (level !== 5) {
+                                        innerElement.on("click", getCurrentElement);
+                                    }
+
+                                    innerElement.attr("id", id);
+                                    bindDeleteClick();
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="nomenclatures" id="location_field">
+            <form id="settings">
+                <label>Въведете име</label> <br />
+                <input id="main_value" type="text"/> <br/>
+                <input type="radio" name="node" value="main" checked="true"/> Добави главен
+                <input type="radio" name="node" value="children"/> Добави дете<br/>
+                <button id="add_node">Добави</button>
+            </form>
+            <ul id="tree"></ul>
+        </div>
+    </body>
+</html>

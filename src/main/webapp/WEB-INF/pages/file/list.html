@@ -37,6 +37,7 @@
                         url: '/file/list/' + pageNumber,
                         type: 'GET',
                         contentType: 'json',
+                        dataType: 'json',
                         success: function(json) {
                             var page = JSON.parse(json);
                             var pageContent = page.content;

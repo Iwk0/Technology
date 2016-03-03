@@ -1,12 +1,15 @@
 package com.technology.controller;
 
+import com.technology.model.Department;
+import com.technology.model.Employee;
 import com.technology.model.User;
 import com.technology.model.json.Rows;
 import com.technology.model.json.TableSettings;
+import com.technology.repository.DepartmentRepository;
+import com.technology.repository.EmployeeRepository;
 import com.technology.repository.FileRepository;
 import com.technology.repository.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -19,12 +22,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
+@Slf4j
 @Controller
 public class HomeController {
 
-    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+    //private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     private static final Map<String, String> extensions;
+
     static {
         Map<String, String> aMap = new HashMap<>();
         aMap.put("image/jpeg", "jpg");
@@ -38,13 +43,19 @@ public class HomeController {
     @Autowired
     private FileRepository fileRepository;
 
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private DepartmentRepository departmentRepository;
+
 /*    @Value("${date.format}")
     private String dateFormat;*/
 
     @RequestMapping(value = "/login")
     public String loginPage(@RequestParam(value = "loginError", required = false) String error, ModelMap model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
+        log.info("test");
         if (authentication instanceof AnonymousAuthenticationToken) {
             model.put("error", error);
             return "login";
@@ -77,7 +88,8 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/users/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
+    public
+    @ResponseBody
     TableSettings getListOfUsers() {
         List<User> users = userRepository.findAll();
         TableSettings tableSettings = new TableSettings("1", 1, String.valueOf(users.size()));
@@ -99,6 +111,21 @@ public class HomeController {
         } else if (request.isUserInRole("USER")) {
             model.put("users", userRepository.findByUsernameLike("a%"));
         }
+
+/*        Department department = new Department();
+        department.setName("Developers");
+        departmentRepository.save(department);*/
+
+        Department department = departmentRepository.findOne(1L);
+
+        Employee employee = new Employee();
+        employee.setFirstName("Ivo");
+        employee.setLastName("Mishev");
+        employee.setEGN("9106076560");
+        employee.setDepartment(department);
+
+
+//        departmentRepository.save(department);
 
         return "index";
     }

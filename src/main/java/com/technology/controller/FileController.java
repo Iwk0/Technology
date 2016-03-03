@@ -42,7 +42,8 @@ public class FileController {
     }
 
     @RequestMapping(value = "/list/{page}")
-    public @ResponseBody
+    public
+    @ResponseBody
     String getNewFiles(@PathVariable(value = "page") String page) {
         Pageable pageable = new PageRequest(Integer.valueOf(page), 4);
         Gson gson = new Gson();
@@ -65,42 +66,42 @@ public class FileController {
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     @ResponseBody
     public String handleFileUpload(@RequestParam(value = "name") String name,
-                                   @RequestParam(value = "file") MultipartFile file){
-        if (!file.isEmpty() && !StringUtils.isEmpty(name)) {
-            String extension = file.getContentType();
-
-            if (extension.equals("image/jpeg") || extension.equals("image/png") || extension.equals("video/mp4")) {
-                /*File convertedFile = new File(System.getProperty("user.home") + "\\Desktop\\" + name + "." + extensions.get(extension));
-
-                try {
-                    file.transferTo(convertedFile);
-                } catch (IOException e) {
-                    logger.error("IOException", e);
-                    return "FAILED";
-                }*/
-
-                com.technology.model.File tempFile = new com.technology.model.File();
-                tempFile.setContentType(File.ContentType.IMAGE);
-                tempFile.setName(name);
-
-                try {
-                    tempFile.setFile(new SerialBlob(file.getBytes()));
-                } catch (SQLException e) {
-                    logger.error("SQLException", e);
-                } catch (IOException e) {
-                    logger.error("IOException", e);
-                }
-
-                fileRepository.save(tempFile);
-
-                logger.info("Successfully file uploaded");
-
-                return "SUCCESS";
-            } else {
-                return "FORMAT";
-            }
-        } else {
+                                   @RequestParam(value = "file") MultipartFile file) {
+        if (!file.isEmpty() || !StringUtils.isEmpty(name)) {
             return "FAILED";
+        }
+
+        String extension = file.getContentType();
+
+        if (extension.equals("image/jpeg") || extension.equals("image/png") || extension.equals("video/mp4")) {
+            /*File convertedFile = new File(System.getProperty("user.home") + "\\Desktop\\" + name + "." + extensions.get(extension));
+
+            try {
+                file.transferTo(convertedFile);
+            } catch (IOException e) {
+                logger.error("IOException", e);
+                return "FAILED";
+            }*/
+
+            com.technology.model.File tempFile = new com.technology.model.File();
+            tempFile.setContentType(File.ContentType.IMAGE);
+            tempFile.setName(name);
+
+            try {
+                tempFile.setFile(new SerialBlob(file.getBytes()));
+            } catch (SQLException e) {
+                logger.error("SQLException", e);
+            } catch (IOException e) {
+                logger.error("IOException", e);
+            }
+
+            fileRepository.save(tempFile);
+
+            logger.info("Successfully file uploaded");
+
+            return "SUCCESS";
+        } else {
+            return "FORMAT";
         }
     }
 }

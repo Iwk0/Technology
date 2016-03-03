@@ -1,5 +1,7 @@
 package com.technology.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -24,34 +26,50 @@ public class Branch extends ParentEntity {
 
     @XmlElement(name = "Product")
     @Transient
+    @Getter
+    @Setter
     private String product;
 
     @XmlElement(name = "APR")
     @Transient
+    @Getter
+    @Setter
     private double apr;
 
     @XmlElement(name = "Currency")
     @Transient
+    @Getter
+    @Setter
     private String currency;
 
     @XmlElement(name = "MonthlyPayment")
     @Transient
+    @Getter
+    @Setter
     private double monthlyPayment;
 
     @XmlElement(name = "TotalPayed")
     @Transient
+    @Getter
+    @Setter
     private double totalPayed;
 
     @XmlElement(name = "InterestRateType")
     @Transient
+    @Getter
+    @Setter
     private String interestRateType;
 
     @XmlElement(name = "Bank")
     @Transient
+    @Getter
+    @Setter
     private String bank;
 
     @XmlElement(name = "ProductURL")
     @Transient
+    @Getter
+    @Setter
     public String productURL;
 
     public String getName() {

@@ -1,5 +1,8 @@
 package com.technology.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,24 +13,12 @@ import java.util.List;
 public class Company extends ParentEntity {
 
     @Column
+    @Getter
+    @Setter
     private String name;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "company", orphanRemoval = true)
+    @Getter
+    @Setter
     private List<Branch> branches;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Branch> getBranches() {
-        return branches;
-    }
-
-    public void setBranches(List<Branch> branches) {
-        this.branches = branches;
-    }
 }
