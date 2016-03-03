@@ -112,20 +112,8 @@ public class HomeController {
             model.put("users", userRepository.findByUsernameLike("a%"));
         }
 
-/*        Department department = new Department();
-        department.setName("Developers");
-        departmentRepository.save(department);*/
-
         Department department = departmentRepository.findOne(1L);
-
-        Employee employee = new Employee();
-        employee.setFirstName("Ivo");
-        employee.setLastName("Mishev");
-        employee.setEGN("9106076560");
-        employee.setDepartment(department);
-
-
-//        departmentRepository.save(department);
+        Employee employee = employeeRepository.findOne(1L);
 
         return "index";
     }
