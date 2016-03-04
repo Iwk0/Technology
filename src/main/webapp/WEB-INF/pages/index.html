@@ -2,8 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Title</title>
-        <link rel="stylesheet" type="text/css" href="main.css" th:href="@{/resources/css/main.css}" />
         <script th:src="@{/resources/js/jquery-1.11.2.min.js}"></script>
+        <link rel="stylesheet" type="text/css" href="main.css" th:href="@{/resources/css/main.css}" />
+        <link rel="stylesheet" type="text/css" href="boostrap.css" th:href="@{/resources/css/bootstrap.min.css}" />
+        <!--<link rel="stylesheet" type="text/css" href="boostrap.css" th:href="@{/resources/css/bootstrap-theme.min.css}" />-->
+        <script th:src="@{/resources/js/bootstrap.min.js}"></script>
         <script th:src="@{/resources/js/sockjs-0.3.4.js}"></script>
         <script th:src="@{/resources/js/stomp.js}"></script>
         <meta name="_csrf" th:content="${_csrf.token}" />
@@ -51,14 +54,35 @@
             This will only be displayed if authenticated user has role ROLE_ADMIN. <br />
         </div>
 
-        <div th:each="user : ${users}" th:text="${user.id + ' ' + user.username + ' '} + #{${user.status}}">Text</div>
+        <div class="alert alert-success" role="alert">
+            <strong>Well done!</strong> You successfully read this important alert message.
+        </div>
+
+        <div class="container">
+            <form class="form-horizontal" th:action="@{/search}" method="get">
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Търсене:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="search" placeholder="Enter text"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input class="btn btn-default" type="submit" th:value="#{button.search}" />
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="label label-info" th:each="user : ${users}" th:text="${user.id + ' ' + user.username + ' '} + #{${user.status}}">Text</div>
+        <div class="label label-info" th:each="employee : ${employees}" th:text="${employee.firstName + ' ' + employee.lastName + ' ' + employee.EGN}"></div>
 
         <form style="margin-top: 20px; margin-bottom: 10px" id="form" enctype="multipart/form-data">
             <label>File name: </label><br />
             <input type="text" name="name" />
             <input style="margin-top: 10px;" name="file" type="file" />
         </form>
-        <button id="upload">Upload</button>
+        <button class="btn btn-default" id="upload">Upload</button>
 
         <label class="error"></label><br />
 

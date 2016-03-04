@@ -2,6 +2,9 @@ package com.technology.model;
 
 import com.google.gson.annotations.Expose;
 import com.technology.util.validation.NotSame;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.search.annotations.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,71 +18,43 @@ import javax.validation.constraints.Size;
  * Date: 15-2-24
  * Time: 9:58
  */
+@Indexed
 @Entity
 public class User extends ParentEntity {
 
-    public enum Role {
-        ANONYMOUS, ADMIN, USER
-    }
-
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     @Expose
     @Column
     @Size(min = 4)
     @NotSame
+    @Getter
+    @Setter
     private String username;
 
     @Column
+    @Getter
+    @Setter
     private String password;
 
     //@Number
+    @Getter
+    @Setter
     private String amount;
-
-    public String getAmount() {
-        return amount;
-    }
-
-    public void setAmount(String amount) {
-        this.amount = amount;
-    }
 
     @Expose
     @Column
     @Enumerated(value = EnumType.STRING)
+    @Getter
+    @Setter
     private Status status = Status.ACTIVE;
 
     @Expose
     @Enumerated(value = EnumType.STRING)
+    @Getter
+    @Setter
     private Role role = Role.USER;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
+    public enum Role {
+        ANONYMOUS, ADMIN, USER
     }
 }

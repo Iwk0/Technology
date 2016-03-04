@@ -1,7 +1,5 @@
 package com.technology.controller;
 
-import com.technology.model.Department;
-import com.technology.model.Employee;
 import com.technology.model.User;
 import com.technology.model.json.Rows;
 import com.technology.model.json.TableSettings;
@@ -16,6 +14,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,13 +48,13 @@ public class HomeController {
     @Autowired
     private DepartmentRepository departmentRepository;
 
-/*    @Value("${date.format}")
+    /*    @Value("${date.format}")
     private String dateFormat;*/
 
     @RequestMapping(value = "/login")
     public String loginPage(@RequestParam(value = "loginError", required = false) String error, ModelMap model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        log.info("test");
+
         if (authentication instanceof AnonymousAuthenticationToken) {
             model.put("error", error);
             return "login";
@@ -105,6 +104,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/")
+    @Transactional
     public String homePage(HttpServletRequest request, ModelMap model) {
         if (request.isUserInRole("ADMIN")) {
             model.put("users", userRepository.findAll());
@@ -112,8 +112,25 @@ public class HomeController {
             model.put("users", userRepository.findByUsernameLike("a%"));
         }
 
-        Department department = departmentRepository.findOne(1L);
-        Employee employee = employeeRepository.findOne(1L);
+        /*Department department = departmentRepository.findOne(1L);
+        Hibernate.initialize(department.getEmployees());
+
+        Employee employee = new Employee();
+        employee.setDepartment(department);
+        employee.setEGN("9106076560");
+        employee.setFirstName("Ivo");
+        employee.setLastName("Mishev");
+
+        department.addEmployee(employee);
+
+        Employee employee1 = new Employee();
+        employee1.setEGN("9106076560");
+        employee1.setFirstName("Ivo");
+        employee1.setLastName("Ivanov");
+        employee1.setDepartment(department);
+
+        department.addEmployee(employee1);
+        departmentRepository.save(department);*/
 
         return "index";
     }

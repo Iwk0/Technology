@@ -1,23 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title></title>
+        <script th:src="@{/resources/js/jquery-1.11.2.min.js}"></script>
+        <link rel="stylesheet" type="text/css" href="boostrap.css" th:href="@{/resources/css/bootstrap.min.css}" />
+        <script th:src="@{/resources/js/bootstrap.min.js}"></script>
     </head>
     <body onload="document.login.username.focus();">
-        <h1 th:text="#{label.title}">Title</h1>
-        <form name="login" th:action="@{/j_spring_security_check}" method="POST">
-            <div>
-                <label>
-                    Username: <input type="text" name="username"/>
-                </label>
-            </div>
-            <div>
-                <label>Password: <input type="password" name="password"/></label>
-            </div>
-            <div th:if="${error} ne null">
-                <br /><div style="color: red">Incorrect password</div>
-            </div>
-            <input type="submit" value="Login" class="submit"/>
-        </form>
+        <div class="container">
+            <h2 th:text="#{label.title}">Title</h2>
+            <form role="form" name="login" th:action="@{/j_spring_security_check}" method="post">
+                <div class="form-group">
+                    <label for="username" th:text="#{label.username}">Username:</label>
+                    <input type="text" name="username" class="form-control" id="username" />
+                </div>
+                <div>
+                    <label for="pwd" th:text="#{label.password}">Password:</label>
+                    <input type="password" name="password" class="form-control" id="pwd" />
+                </div>
+                <div th:if="${error} ne null" class="form-group">
+                    <span th:text="#{error.incorrect.password}" class="label label-danger">Incorrect password</span>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" />
+                        <span th:text="#{label.remember.me}">Remember me</span>
+                    </label>
+                </div>
+                <input type="submit" th:value="#{button.login}" value="Login" class="btn btn-default" />
+            </form>
+        </div>
     </body>
 </html>
