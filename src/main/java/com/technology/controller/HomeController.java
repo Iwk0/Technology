@@ -3,8 +3,6 @@ package com.technology.controller;
 import com.technology.model.User;
 import com.technology.model.json.Rows;
 import com.technology.model.json.TableSettings;
-import com.technology.repository.DepartmentRepository;
-import com.technology.repository.EmployeeRepository;
 import com.technology.repository.FileRepository;
 import com.technology.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +23,6 @@ import java.util.*;
 @Controller
 public class HomeController {
 
-    //private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-
     private static final Map<String, String> extensions;
 
     static {
@@ -41,12 +37,6 @@ public class HomeController {
 
     @Autowired
     private FileRepository fileRepository;
-
-    @Autowired
-    private EmployeeRepository employeeRepository;
-
-    @Autowired
-    private DepartmentRepository departmentRepository;
 
     /*    @Value("${date.format}")
     private String dateFormat;*/
@@ -111,26 +101,6 @@ public class HomeController {
         } else if (request.isUserInRole("USER")) {
             model.put("users", userRepository.findByUsernameLike("a%"));
         }
-
-        /*Department department = departmentRepository.findOne(1L);
-        Hibernate.initialize(department.getEmployees());
-
-        Employee employee = new Employee();
-        employee.setDepartment(department);
-        employee.setEGN("9106076560");
-        employee.setFirstName("Ivo");
-        employee.setLastName("Mishev");
-
-        department.addEmployee(employee);
-
-        Employee employee1 = new Employee();
-        employee1.setEGN("9106076560");
-        employee1.setFirstName("Ivo");
-        employee1.setLastName("Ivanov");
-        employee1.setDepartment(department);
-
-        department.addEmployee(employee1);
-        departmentRepository.save(department);*/
 
         return "index";
     }

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="page">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Technology</title>
+
+        <script th:src="@{/resources/js/jquery-1.11.2.min.js}"></script>
+
+        <link rel="stylesheet" type="text/css" href="main.css" th:href="@{/resources/css/main.css}" />
+        <link rel="stylesheet" type="text/css" href="boostrap.css" th:href="@{/resources/css/bootstrap.min.css}" />
+
+        <script th:src="@{/resources/js/bootstrap.min.js}"></script>
+        <script th:src="@{/resources/js/sockjs-0.3.4.js}"></script>
+        <script th:src="@{/resources/js/stomp.js}"></script>
+
+        <meta name="_csrf" th:content="${_csrf.token}" />
+        <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    </head>
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Technology</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a th:href="@{/}">Home</a></li>
+                    <li><a th:href="@{/user/new}">New user</a></li>
+                    <li><a th:href="@{/controlPanel}">Control panel</a></li>
+                    <li><a th:href="@{/file/list}">Files list</a></li>
+                    <li><a href="javascript:logout();"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li style="margin-top: 7px; margin-right: 15px">
+                        <form class="form-inline" th:action="@{/search}" method="get">
+                            <div class="form-group">
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="search" placeholder="Enter text"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <input class="btn btn-default" type="submit" th:value="#{button.search}" />
+                                </div>
+                            </div>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <form th:action="@{/logout}" id="logoutForm" method="post"></form>
+        <script>
+            function logout() {
+                document.getElementById("logoutForm").submit();
+            }
+        </script>
+        <div th:include="this :: content"></div>
+    </body>
+</html>

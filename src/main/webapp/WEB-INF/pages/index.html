@@ -1,16 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="decorator :: page">
     <head>
-        <title>Title</title>
-        <script th:src="@{/resources/js/jquery-1.11.2.min.js}"></script>
-        <link rel="stylesheet" type="text/css" href="main.css" th:href="@{/resources/css/main.css}" />
-        <link rel="stylesheet" type="text/css" href="boostrap.css" th:href="@{/resources/css/bootstrap.min.css}" />
-        <!--<link rel="stylesheet" type="text/css" href="boostrap.css" th:href="@{/resources/css/bootstrap-theme.min.css}" />-->
-        <script th:src="@{/resources/js/bootstrap.min.js}"></script>
-        <script th:src="@{/resources/js/sockjs-0.3.4.js}"></script>
-        <script th:src="@{/resources/js/stomp.js}"></script>
-        <meta name="_csrf" th:content="${_csrf.token}" />
-        <meta name="_csrf_header" th:content="${_csrf.headerName}" />
         <script th:inline="javascript">
             $(function() {
                 var socket = new SockJS("/hello");
@@ -48,56 +40,50 @@
         </script>
     </head>
     <body>
-        <h2>Hello <span th:text="${#authentication.name}">Name</span></h2>
+        <div th:fragment="content">
+            <!--<h2>Hello <span th:text="${#authentication.name}">Name</span></h2>
 
-        <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
-            This will only be displayed if authenticated user has role ROLE_ADMIN. <br />
-        </div>
+            <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                This will only be displayed if authenticated user has role ROLE_ADMIN. <br />
+            </div>
 
-        <div class="alert alert-success" role="alert">
-            <strong>Well done!</strong> You successfully read this important alert message.
-        </div>
+            <div class="alert alert-success" role="alert">
+                <strong>Well done!</strong> You successfully read this important alert message.
+            </div>
 
-        <div class="container">
-            <form class="form-horizontal" th:action="@{/search}" method="get">
-                <div class="form-group">
-                    <label class="control-label col-sm-2">Търсене:</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="search" placeholder="Enter text"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <input class="btn btn-default" type="submit" th:value="#{button.search}" />
-                    </div>
-                </div>
+            <div class="label label-info" th:each="user : ${users}" th:text="${user.id + ' ' + user.username + ' '} + #{${user.status}}">Text</div>-->
+            <!--<div class="label label-info" th:each="employee : ${employees}" th:text="${employee.firstName + ' ' + employee.lastName + ' ' + employee.EGN}"></div>-->
+
+            <!--<form style="margin-top: 20px; margin-bottom: 10px" id="form" enctype="multipart/form-data">
+                <label>File name: </label><br />
+                <input type="text" name="name" />
+                <input style="margin-top: 10px;" name="file" type="file" />
             </form>
+            <button class="btn btn-default" id="upload">Upload</button>
+
+            <label class="error"></label><br />-->
+
+            <div class="container">
+                <h2>Служители</h2>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Име</th>
+                            <th>Фамилия</th>
+                            <th>ЕГН</th>
+                            <th>Отдел</th>
+                        </tr>
+                    </thead>
+                    <tbody th:if="${not #lists.isEmpty(employees)}">
+                        <tr data-th-each="employee : ${employees}">
+                            <td data-th-text="${employee.firstName}">...</td>
+                            <td data-th-text="${employee.lastName}">...</td>
+                            <td data-th-text="${employee.EGN}">...</td>
+                            <td data-th-text="${employee.department.name}">...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-
-        <div class="label label-info" th:each="user : ${users}" th:text="${user.id + ' ' + user.username + ' '} + #{${user.status}}">Text</div>
-        <div class="label label-info" th:each="employee : ${employees}" th:text="${employee.firstName + ' ' + employee.lastName + ' ' + employee.EGN}"></div>
-
-        <form style="margin-top: 20px; margin-bottom: 10px" id="form" enctype="multipart/form-data">
-            <label>File name: </label><br />
-            <input type="text" name="name" />
-            <input style="margin-top: 10px;" name="file" type="file" />
-        </form>
-        <button class="btn btn-default" id="upload">Upload</button>
-
-        <label class="error"></label><br />
-
-        <form th:action="@{/logout}" id="logoutForm" method="post"></form>
-        <script>
-            function logout() {
-                document.getElementById("logoutForm").submit();
-            }
-        </script>
-
-        <ul>
-            <li><a href="javascript:logout();">Logout</a></li>
-            <li><a th:href="@{/user/new}">New user</a></li>
-            <li><a th:href="@{/controlPanel}">Control panel</a></li>
-            <li><a th:href="@{/file/list}">Files list</a></li>
-        </ul>
     </body>
 </html>
