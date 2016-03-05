@@ -40,7 +40,7 @@ public class Employee extends ParentEntity {
             write = "AES_ENCRYPT(?, 'DASJK43hEQWE')")
     @Getter
     @Setter
-    private String EGN;
+    private String egn;
 
     @ManyToOne
     @JoinColumn(name = "departmentId")

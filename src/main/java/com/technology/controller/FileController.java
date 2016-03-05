@@ -74,15 +74,6 @@ public class FileController {
         String extension = file.getContentType();
 
         if (extension.equals("image/jpeg") || extension.equals("image/png") || extension.equals("video/mp4")) {
-            /*File convertedFile = new File(System.getProperty("user.home") + "\\Desktop\\" + name + "." + extensions.get(extension));
-
-            try {
-                file.transferTo(convertedFile);
-            } catch (IOException e) {
-                logger.error("IOException", e);
-                return "FAILED";
-            }*/
-
             com.technology.model.File tempFile = new com.technology.model.File();
             tempFile.setContentType(File.ContentType.IMAGE);
             tempFile.setName(name);

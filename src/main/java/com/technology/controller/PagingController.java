@@ -61,9 +61,4 @@ public class PagingController {
         //Tree tree = new Gson().fromJson(json, Tree.class);
         return "";
     }
-
-    @RequestMapping(value = "/ajax", method = RequestMethod.GET)
-    public String getJSON() {
-        return "ajax";
-    }
 }

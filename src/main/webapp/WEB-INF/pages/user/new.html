@@ -7,17 +7,6 @@
     </head>
     <body>
         <div th:fragment="content">
-<!--            <form th:object="${user}" th:action="@{/user/new}" method="post">
-                <label th:text="#{label.username}">Text</label><input type="text" th:field="*{username}" />
-                <span th:each="err : ${#fields.errors('username')}" class="error" th:text="${err}">Error</span><br />
-                <label th:text="#{label.password}">Password</label><input type="password" th:field="*{password}" /><br />
-                <label th:text="#{label.role}">Roles</label><br />
-                <select th:field="*{role}">
-                    <option th:each="role : ${roles}" th:value="${role}" th:text="#{${role}}">Options</option>
-                </select>
-                <input type="submit" th:value="#{button.registration}" />
-            </form>-->
-
             <div class="container">
                 <form role="form" th:object="${user}" th:action="@{/user/new}" method="post">
                     <div class="form-group">
@@ -29,13 +18,15 @@
                         <input type="password" class="form-control" id="pwd" th:field="*{password}" placeholder="Парола" />
                     </div>
                     <div class="form-group">
-                        <span th:each="err : ${#fields.errors('username')}" class="label label-danger" th:text="${err}">Error</span>
-                    </div>
-                    <div class="form-group">
                         <label for="role" th:text="#{label.role}">Role:</label>
                         <select class="form-control" id="role" th:field="*{role}">
                             <option th:each="role : ${roles}" th:value="${role}" th:text="#{${role}}">Options</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <h4>
+                            <span th:each="err : ${#fields.errors('username')}" class="label label-danger" th:text="${err}">Error</span>
+                        </h4>
                     </div>
                     <input type="submit" class="btn btn-default" th:value="#{button.registration}" />
                 </form>

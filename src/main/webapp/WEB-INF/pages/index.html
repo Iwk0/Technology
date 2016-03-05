@@ -47,10 +47,6 @@
                 This will only be displayed if authenticated user has role ROLE_ADMIN. <br />
             </div>
 
-            <div class="alert alert-success" role="alert">
-                <strong>Well done!</strong> You successfully read this important alert message.
-            </div>
-
             <div class="label label-info" th:each="user : ${users}" th:text="${user.id + ' ' + user.username + ' '} + #{${user.status}}">Text</div>-->
             <!--<div class="label label-info" th:each="employee : ${employees}" th:text="${employee.firstName + ' ' + employee.lastName + ' ' + employee.EGN}"></div>-->
 
