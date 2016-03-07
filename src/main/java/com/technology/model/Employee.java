@@ -17,7 +17,7 @@ import javax.persistence.ManyToOne;
 public class Employee extends ParentEntity {
 
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
-    @Column(columnDefinition = "VARBINARY(500)", name = "firstName")
+    @Column(columnDefinition = "TINYBLOB", name = "firstName")
     @ColumnTransformer(
             read = "AES_DECRYPT(firstName, 'DASJK43hEQWE')",
             write = "AES_ENCRYPT(?, 'DASJK43hEQWE')")
@@ -26,7 +26,7 @@ public class Employee extends ParentEntity {
     private String firstName;
 
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
-    @Column(columnDefinition = "VARBINARY(500)", name = "lastName")
+    @Column(columnDefinition = "TINYBLOB", name = "lastName")
     @ColumnTransformer(
             read = "AES_DECRYPT(lastName, 'DASJK43hEQWE')",
             write = "AES_ENCRYPT(?, 'DASJK43hEQWE')")
@@ -34,7 +34,7 @@ public class Employee extends ParentEntity {
     @Setter
     private String lastName;
 
-    @Column(columnDefinition = "VARBINARY(500)", name = "EGN")
+    @Column(columnDefinition = "TINYBLOB", name = "EGN")
     @ColumnTransformer(
             read = "AES_DECRYPT(EGN, 'DASJK43hEQWE')",
             write = "AES_ENCRYPT(?, 'DASJK43hEQWE')")

@@ -51,32 +51,23 @@ public class ParentEntity implements Serializable {
     }
 
     @PreUpdate
-    public void preUpdate(){
+    public void preUpdate() {
         this.dateLastModified = new Date();
     }
 
     @PrePersist
-    public void perCreate(){
+    public void perCreate() {
         this.dateCreated = new Date();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (!(o instanceof ParentEntity)) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
         ParentEntity that = (ParentEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) {
-            return false;
-        }
-
-        return true;
+        return id != null ? id.equals(that.id) : that.id == null;
     }
 
     @Override
