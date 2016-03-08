@@ -30,6 +30,14 @@
                     <li><a th:href="@{/controlPanel}">Control panel</a></li>
                     <li><a th:href="@{/file/list}">Files list</a></li>
                     <li><a th:href="@{/video}">Video</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Employee
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a th:href="@{/employee/new}" href="#">New</a></li>
+                            <li><a th:href="@{/employee/list}" href="#">List</a></li>
+                        </ul>
+                    </li>
                     <li><a href="javascript:logout();"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
       th:include="decorator :: page">
 <body>
 <div th:fragment="content">
@@ -23,7 +23,6 @@
     </div>
     <script>
         $(function () {
-            var isTest = false;
             $.fn.serializeObject = function () {
                 var o = {};
                 var a = this.serializeArray();
@@ -37,6 +36,7 @@
                         o[this.name] = this.value || '';
                     }
                 });
+
                 return o;
             };
 
@@ -45,7 +45,7 @@
 
                 $.ajax({
                     url: "/employee/new",
-                    dataType: "json",
+                    dataType: "text",
                     contentType: "application/json; charset=utf-8",
                     type: "POST",
                     data: data,
@@ -55,17 +55,15 @@
 
                         xhr.setRequestHeader(header, token);
                     }
-                }).done(function () {
+                }).done(function (result) {
                     var employeeForm = $("#employeeForm");
                     employeeForm.find(".alert").remove();
 
-                    if (isTest) {
+                    if (result !== "ERROR") {
                         employeeForm.prepend('<div class="alert alert-success fade in">Успешна регистрация</div>');
                     } else {
                         employeeForm.prepend('<div class="alert alert-danger fade in">Неуспешна регистрация</div>');
                     }
-
-                    isTest = !isTest;
                 });
             });
         });

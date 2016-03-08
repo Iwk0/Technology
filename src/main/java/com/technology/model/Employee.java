@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.search.annotations.*;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,6 +24,7 @@ public class Employee extends ParentEntity {
             write = "AES_ENCRYPT(?, 'DASJK43hEQWE')")
     @Getter
     @Setter
+    @NotBlank
     private String firstName;
 
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
@@ -32,6 +34,7 @@ public class Employee extends ParentEntity {
             write = "AES_ENCRYPT(?, 'DASJK43hEQWE')")
     @Getter
     @Setter
+    @NotBlank
     private String lastName;
 
     @Column(columnDefinition = "TINYBLOB", name = "EGN")
@@ -40,6 +43,7 @@ public class Employee extends ParentEntity {
             write = "AES_ENCRYPT(?, 'DASJK43hEQWE')")
     @Getter
     @Setter
+    @NotBlank
     private String egn;
 
     @ManyToOne

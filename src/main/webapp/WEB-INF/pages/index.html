@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
       th:include="decorator :: page">
     <head>
         <script th:inline="javascript">
@@ -74,8 +74,8 @@
                         <tr data-th-each="employee : ${employees}">
                             <td data-th-text="${employee.firstName}">...</td>
                             <td data-th-text="${employee.lastName}">...</td>
-                            <td data-th-text="${employee.EGN}">...</td>
-                            <td data-th-text="${employee.department.name}">...</td>
+                            <td data-th-text="${employee.egn}">...</td>
+                            <td data-th-text="${employee.department != null} ? ${employee.department.name}">...</td>
                         </tr>
                     </tbody>
                 </table>

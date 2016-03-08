@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      th:include="decorator :: page">
+<body>
+<div th:fragment="content">
+    <div class="container">
+        <h2>Служители</h2>
+        <ul class="pager">
+            <li><a th:href="@{/employee/list(page=${page - 1})}" href="#">Previous</a></li>
+            <li><a th:href="@{/employee/list(page=${page + 1})}" href="#">Next</a></li>
+        </ul>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Име</th>
+                <th>Фамилия</th>
+                <th>ЕГН</th>
+                <th>Отдел</th>
+            </tr>
+            </thead>
+            <tbody th:if="${not #lists.isEmpty(employees)}">
+            <tr data-th-each="employee : ${employees}">
+                <td data-th-text="${employee.dateCreated}">...</td>
+                <td data-th-text="${employee.firstName}">...</td>
+                <td data-th-text="${employee.lastName}">...</td>
+                <td data-th-text="${employee.egn}">...</td>
+                <td data-th-text="${employee.department != null} ? ${employee.department.name} : 'Няма отдел'">...</td>
+            </tr>
+            </tbody>
+        </table>
+        <ul class="pager">
+            <li><a th:href="@{/employee/list(page=${page - 1})}" href="#">Previous</a></li>
+            <li><a th:href="@{/employee/list(page=${page + 1})}" href="#">Next</a></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
