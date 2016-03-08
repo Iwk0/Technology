@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
       th:include="decorator :: page">
-    <body>
-        <div th:fragment="content">
-            <video width="500" height="500" controls="controls">
-                <source th:src="@{/videoStream}" type="video/mp4"  src="/videoStream"/>
-            </video>
-        </div>
-    </body>
+<body>
+<div th:fragment="content">
+    <video width="500" height="500" controls="controls">
+        <source th:src="@{/videoStream}" type="video/mp4" src="/videoStream"/>
+    </video>
+</div>
+</body>
 </html>
