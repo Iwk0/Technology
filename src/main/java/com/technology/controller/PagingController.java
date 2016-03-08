@@ -47,7 +47,6 @@ public class PagingController {
     public
     @ResponseBody String sendJSON() {
         User user = new User();
-        user.setAmount("23");
         user.setPassword("abv123");
         user.setUsername("test");
         user.setRole(User.Role.ADMIN);
