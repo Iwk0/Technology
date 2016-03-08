@@ -36,11 +36,6 @@ public class User extends ParentEntity {
     @Setter
     private String password;
 
-    //@Number
-    @Getter
-    @Setter
-    private String amount;
-
     @Expose
     @Column
     @Enumerated(value = EnumType.STRING)
