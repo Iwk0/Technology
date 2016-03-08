@@ -16,4 +16,9 @@ public class ErrorController {
     public String accessDenied() {
         return "error/accessDenied";
     }
+
+    @RequestMapping(value = "/404")
+    public String error404() {
+        return "error/error404";
+    }
 }
