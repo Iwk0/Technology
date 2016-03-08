@@ -5,6 +5,7 @@ import com.technology.util.validation.NotSame;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.search.annotations.*;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,11 +30,13 @@ public class User extends ParentEntity {
     @NotSame
     @Getter
     @Setter
+    @NotBlank
     private String username;
 
     @Column
     @Getter
     @Setter
+    @NotBlank
     private String password;
 
     @Expose
