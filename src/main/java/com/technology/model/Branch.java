@@ -16,139 +16,50 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Branch extends ParentEntity {
 
-    @Column
-    private String name;
-
-    @ManyToOne
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinColumn(name = "companyId")
-    private Company company;
-
-    @XmlElement(name = "Product")
-    @Transient
-    @Getter
-    @Setter
-    private String product;
-
-    @XmlElement(name = "APR")
-    @Transient
-    @Getter
-    @Setter
-    private double apr;
-
-    @XmlElement(name = "Currency")
-    @Transient
-    @Getter
-    @Setter
-    private String currency;
-
-    @XmlElement(name = "MonthlyPayment")
-    @Transient
-    @Getter
-    @Setter
-    private double monthlyPayment;
-
-    @XmlElement(name = "TotalPayed")
-    @Transient
-    @Getter
-    @Setter
-    private double totalPayed;
-
-    @XmlElement(name = "InterestRateType")
-    @Transient
-    @Getter
-    @Setter
-    private String interestRateType;
-
-    @XmlElement(name = "Bank")
-    @Transient
-    @Getter
-    @Setter
-    private String bank;
-
     @XmlElement(name = "ProductURL")
     @Transient
     @Getter
     @Setter
     public String productURL;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
-    public String getProduct() {
-        return product;
-    }
-
-    public void setProduct(String product) {
-        this.product = product;
-    }
-
-    public double getApr() {
-        return apr;
-    }
-
-    public void setApr(double apr) {
-        this.apr = apr;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public double getMonthlyPayment() {
-        return monthlyPayment;
-    }
-
-    public void setMonthlyPayment(double monthlyPayment) {
-        this.monthlyPayment = monthlyPayment;
-    }
-
-    public double getTotalPayed() {
-        return totalPayed;
-    }
-
-    public void setTotalPayed(double totalPayed) {
-        this.totalPayed = totalPayed;
-    }
-
-    public String getInterestRateType() {
-        return interestRateType;
-    }
-
-    public void setInterestRateType(String interestRateType) {
-        this.interestRateType = interestRateType;
-    }
-
-    public String getBank() {
-        return bank;
-    }
-
-    public void setBank(String bank) {
-        this.bank = bank;
-    }
-
-    public String getProductURL() {
-        return productURL;
-    }
-
-    public void setProductURL(String productURL) {
-        this.productURL = productURL;
-    }
+    @Column
+    private String name;
+    @ManyToOne
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JoinColumn(name = "companyId")
+    private Company company;
+    @XmlElement(name = "Product")
+    @Transient
+    @Getter
+    @Setter
+    private String product;
+    @XmlElement(name = "APR")
+    @Transient
+    @Getter
+    @Setter
+    private double apr;
+    @XmlElement(name = "Currency")
+    @Transient
+    @Getter
+    @Setter
+    private String currency;
+    @XmlElement(name = "MonthlyPayment")
+    @Transient
+    @Getter
+    @Setter
+    private double monthlyPayment;
+    @XmlElement(name = "TotalPayed")
+    @Transient
+    @Getter
+    @Setter
+    private double totalPayed;
+    @XmlElement(name = "InterestRateType")
+    @Transient
+    @Getter
+    @Setter
+    private String interestRateType;
+    @XmlElement(name = "Bank")
+    @Transient
+    @Getter
+    @Setter
+    private String bank;
 }
